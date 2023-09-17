@@ -5,16 +5,31 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools'
+
+const queryClient = new QueryClient({
+  defaultOptions:{
+    queries:{
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  }
+})
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
+  // react-router-dom ver5系は、StrictModeだと動作しない為コメントアウト
+  // <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
